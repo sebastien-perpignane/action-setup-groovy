@@ -1,0 +1,38 @@
+name: 'Setup Groovy SDK'
+description: 'Set up the wanted version of the Groovy SDK and 
+              add CLI commands to the PATH. Relies on SDKMAN.'
+author: 'Sébastien Perpignane'
+
+inputs:
+  groovy-version:
+    description: 'The Groovy SDK version to setup. If no version is specified, 
+    the latest stable version will be selected automatically.'
+
+
+
+runs:
+
+    using: composite
+
+    steps:
+      - name: "Install SDKMAN"
+        shell: bash
+        run: |
+          export SDKMAN_DIR="$HOME/.sdkman" && curl -s "https://get.sdkman.io?rcupdate=false" | bash
+          echo "sdkman_dir=$SDKMAN_DIR" >> "$GITHUB_ENV"
+
+      - name: Install Groovy SDK
+        id: install_groovy
+        shell: bash
+        run: |
+          source ${{ env.sdkman_dir }}/bin/sdkman-init.sh
+          sdk install groovy ${{ inputs.groovy-version }}
+          for candidate_dir in $(find "${{ env.sdkman_dir }}/candidates" -mindepth 1 -maxdepth 1 -type d); do
+            echo "Setting $candidate_dir in PATH"
+            echo "$candidate_dir/current/bin" >> $GITHUB_PATH
+          done
+
+      - name: Test Groovy
+        shell: bash
+        run: |
+          groovy -version
