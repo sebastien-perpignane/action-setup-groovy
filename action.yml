@@ -25,6 +25,11 @@ runs:
         id: install_groovy
         shell: bash
         run: |
+          if [[ "${{ inputs.groovy-version }}" != "" ]] && [[ ! "${{ inputs.groovy-version }}" =~ [0-9]+\.[0-9]+\.[0-9]+  ]]
+          then
+            echo "Invalid version"
+            exit 1
+          fi
           source ${{ env.sdkman_dir }}/bin/sdkman-init.sh
           sdk install groovy "${{ inputs.groovy-version }}"
           for candidate_dir in $(find "${{ env.sdkman_dir }}/candidates" -mindepth 1 -maxdepth 1 -type d); do
