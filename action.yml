@@ -3,6 +3,10 @@ description: 'Set up the wanted version of the Groovy SDK and
               add CLI commands to the PATH. Relies on SDKMAN.'
 author: 'Sébastien Perpignane'
 
+branding:
+  icon: 'zap'
+  color: 'red'
+
 inputs:
   groovy-version:
     description: 'The Groovy SDK version to setup. If no version is specified, 
@@ -41,3 +45,5 @@ runs:
         shell: bash
         run: |
           groovy -version
+          
+      
