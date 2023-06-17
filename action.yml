@@ -12,13 +12,27 @@ inputs:
     description: 'The Groovy SDK version to setup. If no version is specified, 
     the latest stable version will be selected automatically.'
 
+  java-version:
+    description: 'Java version'
+    required: false
 
+  java-distribution:
+    description: 'Java distribution'
+    required: false
+    default: "temurin"
 
 runs:
 
     using: composite
 
     steps:
+      - name: Install java specific version
+        if: ${{ inputs.java-version != '' }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java-distribution }}
+
       - name: "Install SDKMAN"
         shell: bash
         run: |
