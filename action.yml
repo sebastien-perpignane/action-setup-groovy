@@ -1,6 +1,6 @@
 name: 'Setup Groovy SDK'
 description: 'Set up the wanted version of the Groovy SDK and 
-              add CLI commands to the PATH. Relies on SDKMAN.'
+              add CLI commands to the PATH. Relies on actions/setup-java and SDKMAN.'
 author: 'Sébastien Perpignane'
 
 branding:
@@ -13,11 +13,12 @@ inputs:
     the latest stable version will be selected automatically.'
 
   java-version:
-    description: 'Java version'
+    description: "Groovy needs a JRE. If you don't specify a java version, Groovy will run with the default JRE
+    provided by the OS. If no JRE is available on the OS, Groovy won't work."
     required: false
 
   java-distribution:
-    description: 'Java distribution'
+    description: 'Java distribution. Default is temurin'
     required: false
     default: "temurin"
 
@@ -55,7 +56,7 @@ runs:
             echo "$candidate_dir/current/bin" >> $GITHUB_PATH
           done
 
-      - name: Test Groovy
+      - name: Show Groovy information
         shell: bash
         run: |
           groovy -version
