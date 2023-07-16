@@ -83,5 +83,5 @@ runs:
         id: cache-save
         with:
           path: ~/.groovy/grapes/
-          key: ${{ runner.os }}-${{ hashFiles('.groovy.dependencies') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/.groovy.dependencies') }}
 
