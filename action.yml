@@ -22,6 +22,16 @@ inputs:
     required: false
     default: "temurin"
 
+  cache:
+    description: 'Cache management for dependencies'
+    required: false
+    default: ''
+
+  target-script:
+    description: "The script that will be run with Groovy"
+    required: false
+    default: Main.groovy
+
 runs:
 
     using: composite
@@ -61,4 +71,17 @@ runs:
         run: |
           groovy -version
           
-      
+      - name: Cache management (Grape) - Find dependencies
+        if: ${{ inputs.cache == 'grape' }}
+        shell: bash
+        run: |
+          groovy GrapeDependencies.groovy "${{ inputs.target-script }}"
+          
+      - name: Cache management (Grape) - save cache
+        if: ${{ inputs.cache == 'grape' }}
+        uses: actions/cache/save@v3
+        id: cache-save
+        with:
+          path: ~/.groovy/grapes/
+          key: ${{ runner.os }}-${{ hashFiles('.groovy.dependencies') }}
+
