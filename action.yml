@@ -75,7 +75,7 @@ runs:
         if: ${{ inputs.cache == 'grape' }}
         shell: bash
         run: |
-          groovy GrapeDependencies.groovy "${{ inputs.target-script }}"
+          groovy ${GITHUB_ACTION_PATH}/GrapeDependencies.groovy "${{ inputs.target-script }}"
           
       - name: Cache management (Grape) - save cache
         if: ${{ inputs.cache == 'grape' }}
