@@ -83,6 +83,16 @@ runs:
         run: |
           grape_deps_script="${GITHUB_ACTION_PATH}/GrapeDependencies.groovy"
           echo "$(groovy $grape_deps_script "${{ inputs.target-script }}")" >> $GITHUB_OUTPUT
+
+      - name: display output
+        shell: bash
+        run: |
+          echo "find-grape-deps outputs:"
+          echo ${{ join(steps.find-grape-deps.outputs.*, '\n') }}
+          echo "dependency file content:"
+          cat ${{ steps.find-grape-deps.ouputs.dependency-file-path }}
+          
+        
           
       - name: Cache management (Grape) - save cache
         if: ${{ inputs.cache == 'grape' }}
