@@ -29,12 +29,16 @@ class GrapeDependencies {
             }
         }.sort()
 
-        File output = new File("${options.getOutputPath()}.groovy.dependencies")
-        output.withWriter {writer ->
+        File dependenciesFile = new File("${options.getOutputPath()}.groovy.dependencies")
+        dependenciesFile.withWriter {writer ->
             depsAsStr.each {writer.println it}
         }
 
-        println depsAsStr
+        setOutput("dependency-file-path", dependenciesFile.absolutePath)
+    }
+
+    private static void setOutput(String name, Object value) {
+        println "$name=$value"
     }
 
 }

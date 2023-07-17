@@ -32,6 +32,11 @@ inputs:
     required: false
     default: Main.groovy
 
+outputs:
+  dependency-file-path:
+    description: "Path of the generated file that lists the dependencies"
+    value: ${{ steps.find-grape-deps.ouputs.dependency-file-path }}
+
 runs:
 
     using: composite
@@ -72,16 +77,18 @@ runs:
           groovy -version
           
       - name: Cache management (Grape) - Find dependencies
+        id: find-grape-deps
         if: ${{ inputs.cache == 'grape' }}
         shell: bash
         run: |
-          groovy ${GITHUB_ACTION_PATH}/GrapeDependencies.groovy "${{ inputs.target-script }}"
+          grape_deps_script="${GITHUB_ACTION_PATH}/GrapeDependencies.groovy"
+          echo "$(groovy $grape_deps_script "${{ inputs.target-script }}")" >> $GITHUB_OUTPUT
           
       - name: Cache management (Grape) - save cache
         if: ${{ inputs.cache == 'grape' }}
         uses: actions/cache/save@v3
-        id: cache-save
+        id: save-cache
         with:
           path: ~/.groovy/grapes/
-          key: ${{ runner.os }}-${{ hashFiles('**/.groovy.dependencies') }}
+          key: ${{ runner.os }}-${{ hashFiles( steps.find-grape-deps.ouputs.dependency-file-path ) }}
 
