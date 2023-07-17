@@ -55,10 +55,6 @@ class CliOptions {
         String lOutPath = Paths.get("").toAbsolutePath()
         if (outputPath) {
             lOutPath = !outputPath.endsWith("/") ? outputPath + "/" : outputPath
-            println "dependency file will be exported to custom dir: $lOutPath"
-        }
-        else {
-            println "dependency file will be exported to working dir (default): $lOutPath"
         }
 
         return lOutPath
