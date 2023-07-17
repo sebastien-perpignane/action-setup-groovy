@@ -52,7 +52,7 @@ class CliOptions {
     List<String> scripts
 
     String getOutputPath() {
-        String lOutPath = Paths.get("").toAbsolutePath()
+        String lOutPath = Paths.get("").toAbsolutePath().toString() + "/"
         if (outputPath) {
             lOutPath = !outputPath.endsWith("/") ? outputPath + "/" : outputPath
         }
