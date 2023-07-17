@@ -87,13 +87,15 @@ runs:
       - name: display output
         shell: bash
         run: |
+          
           echo "find-grape-deps outputs:"
           echo ${{ join(steps.find-grape-deps.outputs.*, '\n') }}
+          deps_file="${{ steps.find-grape-deps.outputs.dependency-file-path }}"
           echo "display file info"
-          ls -al "${{ steps.find-grape-deps.ouputs.dependency-file-path }}"
+          ls -al "$deps_file""
           echo "dependency file content:"
-          cat "${{ steps.find-grape-deps.ouputs.dependency-file-path }}"
-          echo "hash-cache=${{ hashFiles( steps.find-grape-deps.ouputs.dependency-file-path ) }}" >> "$GITHUB_ENV"
+          cat "$deps_file"
+          echo "hash-cache=${{ hashFiles( steps.find-grape-deps.outputs.dependency-file-path ) }}" >> "$GITHUB_ENV"
           
         
           
