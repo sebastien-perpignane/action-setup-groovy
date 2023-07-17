@@ -85,6 +85,7 @@ runs:
         if: ${{ inputs.debug == 'true' }}
         shell: bash
         run: |
+          set +e
           echo "grape local repo content if exists"
           [ -d ~/.groovy/grapes/ ] && ls -l ~/.groovy/grapes/
           
