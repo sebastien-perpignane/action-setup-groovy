@@ -80,6 +80,13 @@ runs:
         shell: bash
         run: |
           groovy -version
+
+      - name: display grape cache
+        if: ${{ inputs.debug == 'true' }}
+        shell: bash
+        run: |
+          echo "grape local repo content"
+          ls -l ~/.groovy/grapes/
           
       - name: Cache management (Grape) - Find dependencies
         id: find-grape-deps
@@ -89,11 +96,13 @@ runs:
           grape_deps_script="${GITHUB_ACTION_PATH}/GrapeDependencies.groovy"
           echo "$(groovy $grape_deps_script "${{ inputs.target-script }}")" >> $GITHUB_OUTPUT
 
-      - name: display output
+      - name: display output after find dependencies
         shell: bash
         if: ${{ inputs.debug == 'true' }}
         run: |
           
+          echo "grape local repo content"
+          ls -l ~/.groovy/grapes/
           echo "find-grape-deps outputs:"
           echo ${{ join(steps.find-grape-deps.outputs.*, '\n') }}
           deps_file="${{ steps.find-grape-deps.outputs.dependency-file-path }}"
@@ -111,3 +120,9 @@ runs:
           path: ~/.groovy/grapes/
           key: ${{ runner.os }}-${{ hashFiles( steps.find-grape-deps.outputs.dependency-file-path ) }}
 
+      - name: display grape repo after cache action
+        shell: bash
+        if: ${{ inputs.debug == 'true' }}
+        run: |
+          echo "grape local repo content"
+          ls -l ~/.groovy/grapes/
