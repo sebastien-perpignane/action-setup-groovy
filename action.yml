@@ -85,9 +85,8 @@ runs:
         if: ${{ inputs.debug == 'true' }}
         shell: bash
         run: |
-          set +e
-          echo "grape local repo content"
-          ls -l ~/.groovy/grapes/
+          echo "grape local repo content if exists"
+          [ -d ~/.groovy/grapes/ ] && ls -l ~/.groovy/grapes/
           
       - name: Cache management (Grape) - Find dependencies
         id: find-grape-deps
@@ -102,8 +101,8 @@ runs:
         if: ${{ inputs.debug == 'true' }}
         run: |
           set +e
-          echo "grape local repo content"
-          ls -l ~/.groovy/grapes/
+          echo "grape local repo content if exists"
+          [ -d ~/.groovy/grapes/ ] && ls -l ~/.groovy/grapes/
           echo "find-grape-deps outputs:"
           echo ${{ join(steps.find-grape-deps.outputs.*, '\n') }}
           deps_file="${{ steps.find-grape-deps.outputs.dependency-file-path }}"
@@ -126,5 +125,6 @@ runs:
         if: ${{ inputs.debug == 'true' }}
         run: |
           set +e
-          echo "grape local repo content"
-          ls -l ~/.groovy/grapes/
+          echo "grape local repo content if exists"
+          [ -d ~/.groovy/grapes/ ] && ls -l ~/.groovy/grapes/
+
