@@ -103,11 +103,9 @@ runs:
           cat "$deps_file"
           echo "hash-cache=${{ hashFiles( steps.find-grape-deps.outputs.dependency-file-path ) }}" >> "$GITHUB_ENV"
           
-        
-          
       - name: Cache management (Grape) - save cache
         if: ${{ inputs.cache == 'grape' }}
-        uses: actions/cache/save@v3
+        uses: actions/cache@v3
         id: save-cache
         with:
           path: ~/.groovy/grapes/
