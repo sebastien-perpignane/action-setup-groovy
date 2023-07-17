@@ -32,6 +32,11 @@ inputs:
     required: false
     default: Main.groovy
 
+  debug:
+    description: "debug info in action output"
+    required: false
+    default: 'false'
+
 outputs:
   dependency-file-path:
     description: "Path of the generated file that lists the dependencies"
@@ -86,6 +91,7 @@ runs:
 
       - name: display output
         shell: bash
+        if: ${{ inputs.debug == 'true' }}
         run: |
           
           echo "find-grape-deps outputs:"
@@ -105,5 +111,5 @@ runs:
         id: save-cache
         with:
           path: ~/.groovy/grapes/
-          key: ${{ runner.os }}-${{ hashFiles( env.hash-cache ) }}
+          key: ${{ runner.os }}-${{ hashFiles( steps.find-grape-deps.outputs.dependency-file-path ) }}
 
