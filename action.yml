@@ -89,6 +89,8 @@ runs:
         run: |
           echo "find-grape-deps outputs:"
           echo ${{ join(steps.find-grape-deps.outputs.*, '\n') }}
+          echo "display file info"
+          ls -l ${{ steps.find-grape-deps.ouputs.dependency-file-path }}
           echo "dependency file content:"
           cat ${{ steps.find-grape-deps.ouputs.dependency-file-path }}
           
