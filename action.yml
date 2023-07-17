@@ -85,6 +85,7 @@ runs:
         if: ${{ inputs.debug == 'true' }}
         shell: bash
         run: |
+          set +e
           echo "grape local repo content"
           ls -l ~/.groovy/grapes/
           
@@ -100,7 +101,7 @@ runs:
         shell: bash
         if: ${{ inputs.debug == 'true' }}
         run: |
-          
+          set +e
           echo "grape local repo content"
           ls -l ~/.groovy/grapes/
           echo "find-grape-deps outputs:"
@@ -124,5 +125,6 @@ runs:
         shell: bash
         if: ${{ inputs.debug == 'true' }}
         run: |
+          set +e
           echo "grape local repo content"
           ls -l ~/.groovy/grapes/
